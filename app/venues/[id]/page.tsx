@@ -7,8 +7,10 @@ import {
   getUpcomingEventsForVenue,
   getVenue,
   lastVerified,
+  showsSoccer,
   sources,
 } from "@/lib/data";
+import LeagueList from "@/components/LeagueList";
 import { WEEKDAYS, dayOfWeek, formatShortDate, localDateOf, formatTime, formatTimeRange, todayLocal } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
@@ -89,6 +91,7 @@ export default async function VenuePage({ params }: { params: Params }) {
               ))}
           </ul>
         )}
+        {showsSoccer(venue) && <LeagueList venue={venue} withSources />}
       </header>
 
       {events.length > 0 && (

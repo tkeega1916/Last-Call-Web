@@ -40,7 +40,34 @@ export type Venue = {
   specials: Special[];
   entertainment: Entertainment[];
   venue_sports: { sport: string }[];
+  venue_leagues: VenueLeague[];
 };
+
+export type VenueLeague = {
+  league: string;
+  source: string | null;
+  source_url: string | null;
+  last_verified_on: string | null;
+};
+
+/** Soccer leagues we track per venue. A missing row means "not confirmed". */
+export const LEAGUES: { key: string; label: string }[] = [
+  { key: "premier_league", label: "Premier League" },
+  { key: "la_liga", label: "La Liga" },
+  { key: "mls", label: "MLS" },
+];
+
+export function showsSoccer(v: Venue): boolean {
+  return v.venue_leagues.length > 0 || v.venue_sports.some((s) => s.sport === "Soccer");
+}
+
+/** Sports plus confirmed league names, used by the "Shows this sport" filter. */
+export function watchOptions(v: Venue): string[] {
+  const leagueLabels = v.venue_leagues
+    .map((l) => LEAGUES.find((x) => x.key === l.league)?.label)
+    .filter((x): x is string => !!x);
+  return [...v.venue_sports.map((s) => s.sport), ...leagueLabels];
+}
 
 export type EventRow = {
   id: number;
@@ -70,7 +97,7 @@ export const ENTERTAINMENT_KINDS: Record<string, string> = {
 };
 
 const VENUE_SELECT =
-  "id, city_id, name, address, latitude, longitude, website, notes, venue_type, cuisine, neighbourhood_id, neighbourhood:neighbourhoods(name), specials(*), entertainment(*), venue_sports(sport)";
+  "id, city_id, name, address, latitude, longitude, website, notes, venue_type, cuisine, neighbourhood_id, neighbourhood:neighbourhoods(name), specials(*), entertainment(*), venue_sports(sport), venue_leagues(league, source, source_url, last_verified_on)";
 
 export async function getCities(): Promise<City[]> {
   const { data, error } = await getSupabase().from("cities").select("*").order("name");
@@ -160,7 +187,7 @@ export function filterVenues(venues: Venue[], f: Filters): Venue[] {
   return venues.filter((v) => {
     if (f.type && v.venue_type !== f.type) return false;
     if (f.hood && v.neighbourhood_id !== f.hood) return false;
-    if (f.sport && !v.venue_sports.some((s) => s.sport === f.sport)) return false;
+    if (f.sport && !watchOptions(v).includes(f.sport)) return false;
     return true;
   });
 }

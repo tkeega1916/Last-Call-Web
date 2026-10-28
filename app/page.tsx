@@ -8,6 +8,7 @@ import {
   getEvents,
   getNeighbourhoods,
   getVenues,
+  watchOptions,
   type Category,
   type Venue,
 } from "@/lib/data";
@@ -63,7 +64,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
     show.has("events") ? getEvents(city.id, from, to) : Promise.resolve([]),
   ]);
 
-  const sportsOffered = [...new Set(venues.flatMap((v: Venue) => v.venue_sports.map((s) => s.sport)))].sort();
+  const sportsOffered = [...new Set(venues.flatMap((v: Venue) => watchOptions(v)))].sort();
   const typesOffered = [...new Set(venues.map((v) => v.venue_type).filter((t): t is string => !!t))].sort(
     (a, b) => (VENUE_TYPES[a] ?? a).localeCompare(VENUE_TYPES[b] ?? b)
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { VENUE_TYPES, type Venue } from "@/lib/data";
+import { VENUE_TYPES, showsSoccer, type Venue } from "@/lib/data";
+import LeagueList from "@/components/LeagueList";
 
 export default function WhereToWatch({ venues, sport }: { venues: Venue[]; sport?: string }) {
   const showing = venues
@@ -36,6 +37,7 @@ export default function WhereToWatch({ venues, sport }: { venues: Venue[]; sport
                   </li>
                 ))}
             </ul>
+            {showsSoccer(v) && <LeagueList venue={v} />}
           </li>
         ))}
       </ul>

@@ -424,3 +424,38 @@ input[type="date"].inline-field::-webkit-calendar-picker-indicator {
     transition: none !important;
   }
 }
+
+/* ---------- Soccer leagues ---------- */
+.leagues {
+  list-style: none;
+  padding: 0;
+  margin: 0.6rem 0 0;
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.92rem;
+}
+.league {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.6rem;
+  align-items: baseline;
+}
+.league-name {
+  min-width: 8.5rem;
+}
+.league.yes .league-status {
+  color: var(--teal);
+  font-weight: 700;
+}
+.league.unknown .league-status {
+  color: var(--muted);
+}
+.league-source {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding-left: 0;
+}
+.league-source a {
+  color: var(--muted);
+}
