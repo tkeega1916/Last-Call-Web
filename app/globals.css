@@ -1,0 +1,426 @@
+@import "tailwindcss";
+
+/*
+  Last Call: a night-out board for the city.
+  Navy night sky, warm paper text, beer-amber for times and prices,
+  pitch-teal for sports. The big weekday headings are the one loud thing.
+*/
+:root {
+  --night: #172340;
+  --night-raised: #1f2e52;
+  --night-deep: #111a31;
+  --line: #34466f;
+  --paper: #f3efe4;
+  --muted: #aab4ca;
+  --amber: #f2b544;
+  --teal: #66c7b9;
+  --focus: #f2b544;
+  color-scheme: dark;
+}
+
+@theme {
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-body: var(--font-atkinson), system-ui, sans-serif;
+}
+
+html {
+  background: var(--night);
+}
+
+body {
+  background: var(--night);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  padding: 1.25rem 0 0;
+}
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  color: var(--amber);
+}
+
+/* ---------- Search sentence ---------- */
+.search {
+  padding: 2.5rem 0 2rem;
+  border-bottom: 1px solid var(--line);
+}
+.search-sentence {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.6rem, 4.6vw, 2.6rem);
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  max-width: 22ch;
+}
+@media (min-width: 640px) {
+  .search-sentence {
+    max-width: none;
+  }
+}
+.inline-field {
+  font: inherit;
+  color: var(--amber);
+  background: transparent;
+  border: 0;
+  border-bottom: 2px dashed var(--line);
+  padding: 0 0.1em;
+  margin: 0 0.1em;
+  cursor: pointer;
+  min-width: 0;
+}
+.inline-field:hover {
+  border-bottom-color: var(--amber);
+}
+.inline-field option {
+  color: #1a1a1a;
+  font-size: 1rem;
+}
+input[type="date"].inline-field {
+  font-size: 0.82em;
+  width: 7.6em;
+}
+input[type="date"].inline-field::-webkit-calendar-picker-indicator {
+  filter: invert(0.85) sepia(1) saturate(4) hue-rotate(5deg);
+  cursor: pointer;
+}
+
+.toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+.toggle {
+  position: relative;
+}
+.toggle input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+.toggle span {
+  display: inline-block;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  user-select: none;
+}
+.toggle input:checked + span {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--night-deep);
+  font-weight: 700;
+}
+.toggle input:focus-visible + span {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.more-filters {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.more-filters summary {
+  cursor: pointer;
+  width: fit-content;
+}
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-top: 0.75rem;
+}
+.filter-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+.filter-row select {
+  background: var(--night-raised);
+  color: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.4rem 0.5rem;
+  font: inherit;
+  font-size: 0.95rem;
+  min-width: 10rem;
+}
+
+.search-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.button {
+  background: var(--amber);
+  color: var(--night-deep);
+  border: 0;
+  border-radius: 8px;
+  padding: 0.65rem 1.2rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.button:hover {
+  background: #f6c768;
+}
+.reset-link {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.notice {
+  margin-top: 1.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- Day board ---------- */
+.day {
+  padding: 2.5rem 0 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.day-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.9rem;
+  margin-bottom: 1.25rem;
+}
+.day-weekday {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 9vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+.day-date {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+.day-tag {
+  color: var(--amber);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.day-empty {
+  color: var(--muted);
+  padding-bottom: 1.5rem;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0 1rem;
+  padding: 1rem 0;
+  border-top: 1px dashed var(--line);
+}
+.entry:first-of-type {
+  border-top: 0;
+}
+@media (min-width: 640px) {
+  .entry {
+    grid-template-columns: 7rem 1fr;
+  }
+}
+.entry-time {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--amber);
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+.entry-time.unknown {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.entry-venue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.entry-venue:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+  text-underline-offset: 3px;
+}
+.entry-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.lines {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.line-when {
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+.line-label {
+  font-weight: 700;
+}
+.event-kind {
+  color: var(--teal);
+  font-size: 0.9rem;
+}
+.ticket-link {
+  display: inline-block;
+  margin-top: 0.35rem;
+  color: var(--amber);
+  font-weight: 700;
+}
+
+/* ---------- Where to watch ---------- */
+.watch {
+  padding: 2.5rem 0 3rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.8rem, 6vw, 2.75rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.section-intro {
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+  max-width: 60ch;
+}
+.watch-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.watch-item {
+  padding: 0.9rem 0;
+  border-top: 1px dashed var(--line);
+}
+.sports {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.4rem;
+  list-style: none;
+  padding: 0;
+}
+.sport {
+  color: var(--teal);
+  border: 1px solid color-mix(in srgb, var(--teal) 45%, transparent);
+  border-radius: 999px;
+  padding: 0.05rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+/* ---------- Venue page ---------- */
+.back-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: var(--muted);
+}
+.venue-head {
+  padding: 1.5rem 0 2rem;
+  border-bottom: 1px solid var(--line);
+}
+.venue-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 9vw, 4.25rem);
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  margin-bottom: 0.75rem;
+}
+.venue-facts {
+  color: var(--muted);
+  display: grid;
+  gap: 0.2rem;
+}
+.venue-facts a {
+  color: var(--paper);
+}
+.week {
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.week-day {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 0 1rem;
+  padding: 0.9rem 0;
+  border-top: 1px dashed var(--line);
+}
+.week-day:first-of-type {
+  border-top: 0;
+}
+@media (max-width: 520px) {
+  .week-day {
+    grid-template-columns: 1fr;
+  }
+}
+.week-day-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+.week-day-name.today {
+  color: var(--amber);
+}
+.provenance {
+  padding: 2rem 0 3rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  padding: 2rem 0 3rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
