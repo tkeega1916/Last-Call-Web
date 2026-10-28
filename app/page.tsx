@@ -71,7 +71,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
 
   const filtered = filterVenues(venues, { type, hood, sport });
   const days = buildDays(dates, filtered, events, show);
-  const hasDayContent = show.has("specials") || show.has("entertainment") || show.has("events");
+  const hasVenueDays = days.some((d) => d.venues.length > 0 || d.events.length > 0);
+  const hasDayContent = (show.has("specials") || show.has("entertainment") || show.has("events")) && hasVenueDays;
+  const onlyEvents = show.has("events") && !show.has("specials") && !show.has("entertainment");
 
   return (
     <>
@@ -94,9 +96,19 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
           <p className="notice">Showing the first {MAX_RANGE_DAYS} days. Pick a shorter range to see other dates.</p>
         )}
         {show.has("events") && events.length === 0 && (
-          <p className="notice">
-            No games or concerts are listed for these dates yet. Ticketed events are being added soon.
-          </p>
+          onlyEvents ? (
+            <section className="day">
+              <h2 className="section-title">Games and concerts are coming soon</h2>
+              <p className="section-intro">
+                Ticketed sports games and concerts aren&rsquo;t connected yet. Until then, turn on Happy hours,
+                Trivia, music &amp; karaoke, or Where to watch sports to see what&rsquo;s on at bars.
+              </p>
+            </section>
+          ) : (
+            <p className="notice">
+              Games and concerts aren&rsquo;t connected yet. Bar specials and entertainment are shown below.
+            </p>
+          )
         )}
         {filtered.length === 0 && (
           <p className="notice">

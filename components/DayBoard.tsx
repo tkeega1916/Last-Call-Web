@@ -75,8 +75,14 @@ export default function DayBoard({ days, today }: { days: DayResult[]; today: st
                         const when = formatTimeRange(line.time, line.endTime);
                         return (
                           <li key={i}>
-                            {line.label && <span className="line-label">{line.label}: </span>}
-                            {line.text}
+                            {line.label && line.text.toLowerCase().startsWith(line.label.toLowerCase()) ? (
+                              <span className="line-label">{line.text}</span>
+                            ) : (
+                              <>
+                                {line.label && <span className="line-label">{line.label}: </span>}
+                                {line.text}
+                              </>
+                            )}
                             {when && (lines.length > 1 || line.endTime) && (
                               <span className="line-when"> ({when})</span>
                             )}
